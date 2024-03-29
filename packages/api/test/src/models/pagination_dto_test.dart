@@ -16,14 +16,14 @@ void main() {
         CharacterDto(
           id: 1,
           name: 'John',
-          status: CharacterStatus.alive,
+          status: 'Alive',
           species: 'Human',
           type: '',
-          gender: CharacterGender.male,
-          origin: LocationDto(
+          gender: 'Male',
+          origin: const LocationDto(
             name: 'Earth',
           ),
-          location: LocationDto(
+          location: const LocationDto(
             name: 'Earth',
           ),
           image: '',

@@ -1,5 +1,7 @@
 import 'package:api/api.dart';
+import 'package:rick_morty_app/character/domain/entity/gender.dart';
 import 'package:rick_morty_app/character/domain/entity/location.dart';
+import 'package:rick_morty_app/character/domain/entity/status.dart';
 
 class Character {
   Character({
@@ -58,10 +60,10 @@ extension CharacterDtoX on CharacterDto {
     return Character(
       id: id,
       name: name,
-      status: status,
+      status: CharacterStatus.parse(status),
       species: species,
       type: type,
-      gender: gender,
+      gender: CharacterGender.parse(gender),
       origin: origin.toDomain(),
       location: location.toDomain(),
       image: image,

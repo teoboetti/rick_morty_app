@@ -10,7 +10,7 @@ part 'pagination_dto.g.dart';
 @JsonSerializable()
 class PaginationDto {
   /// {@macro pagination}
-  PaginationDto({
+  const PaginationDto({
     required this.info,
     required this.results,
   });

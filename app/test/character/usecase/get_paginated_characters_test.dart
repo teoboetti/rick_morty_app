@@ -1,4 +1,3 @@
-import 'package:api/api.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rick_morty_app/character/character.dart';

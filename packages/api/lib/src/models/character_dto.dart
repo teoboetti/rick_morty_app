@@ -3,47 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'character_dto.g.dart';
 
-/// [CharacterDto] status enum
-enum CharacterStatus {
-  /// alive
-  @JsonValue('Alive')
-  alive,
-
-  /// dead
-  @JsonValue('Dead')
-  dead,
-
-  /// unknown
-  @JsonValue('unknown')
-  unknown,
-}
-
-/// [CharacterDto] gender enum
-enum CharacterGender {
-  /// female
-  @JsonValue('Female')
-  female,
-
-  /// male
-  @JsonValue('Male')
-  male,
-
-  /// genderless
-  @JsonValue('Genderless')
-  genderless,
-
-  /// unknown
-  @JsonValue('unknown')
-  unknown,
-}
-
 /// {@template character}
 /// Character model
 /// {@endtemplate}
 @JsonSerializable()
 class CharacterDto {
   /// {@macro character}
-  CharacterDto({
+  const CharacterDto({
     required this.id,
     required this.name,
     required this.status,
@@ -69,7 +35,7 @@ class CharacterDto {
   final String name;
 
   /// The status of the character ('Alive', 'Dead' or 'unknown').
-  final CharacterStatus status;
+  final String status;
 
   /// The species of the character.
   final String species;
@@ -78,7 +44,7 @@ class CharacterDto {
   final String type;
 
   /// The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').
-  final CharacterGender gender;
+  final String gender;
 
   /// Name and link to the character's origin location.
   final LocationDto origin;
