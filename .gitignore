@@ -111,3 +111,4 @@ app.*.map.json
 !.idea/dictionaries/
 !.idea/runConfigurations/
 *.lock
+*.g.dart
