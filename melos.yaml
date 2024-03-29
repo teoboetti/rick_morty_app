@@ -1,0 +1,68 @@
+name: rick_morty_app
+repository: https://github.com/teoboetti/rick_morty_app
+
+ide:
+  intellij:
+    enabled: false
+
+packages:
+  - app
+  - packages/**
+
+command:
+  version:
+    # Only allow versioning to happen on master branch.
+    branch: master
+    # Generates a link to a prefilled GitHub release creation page.
+    releaseUrl: true
+    # Additionally build a changelog at the root of the workspace.
+    workspaceChangelog: true
+
+  bootstrap:
+    environment:
+      sdk: ">=3.3.0 <4.0.0"
+      flutter: ">=3.19.2"
+
+scripts:
+  lint:all:
+    run: melos run analyze && melos run format
+    description: Run all static analysis checks.
+
+  analyze:
+    # We are setting the concurrency to 1 because a higher concurrency can crash
+    # the analysis server on low performance machines (like GitHub Actions).
+    run: |
+      melos exec -c 1 -- \
+        dart analyze . --fatal-infos
+    description: |
+      Run `dart analyze` in all packages.
+       - Note: you can also rely on your IDEs Dart Analysis / Issues window.
+
+  format:
+    run: |
+      dart pub global run flutter_plugin_tools format && \
+      swiftformat .
+    description: |
+      Formats the code of all packages (Java, Objective-C, and Dart).
+       - Requires `flutter_plugin_tools` (`pub global activate flutter_plugin_tools`).
+       - Requires `git`.
+       - Requires `clang-format` (can be installed via Brew on MacOS).
+       - Requires `swiftformat` (can be installed via Brew on macOS).
+
+  generate:
+    exec: |
+      dart run build_runner build --delete-conflicting-outputs
+    description: |
+      Generate .g.dart files if the package depends on build_runner
+    packageFilters:
+      dependsOn: build_runner
+
+  localize:
+    exec: |
+      flutter gen-l10n
+    description: 
+      Generate localizations files
+    packageFilters:
+      fileExists: l10n.yaml
+      dependsOn: flutter_gen
+      

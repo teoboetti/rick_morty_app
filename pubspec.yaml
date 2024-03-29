@@ -1,0 +1,9 @@
+name: rick_morty_app_workspace
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.2"
+
+dev_dependencies:
+  melos: ^4.1.0
+  build_runner: ^2.4.8
