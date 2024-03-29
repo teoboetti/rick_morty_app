@@ -35,3 +35,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/fonts/Get-Schwifty.ttf
+  fonts:
+    - family: Schwifty
+      fonts:
+        - asset: assets/fonts/Get-Schwifty.ttf
