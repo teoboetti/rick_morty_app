@@ -21,7 +21,7 @@ void main() {
       const image = 'https://rickandmortyapi.com/api/character/avatar/1.jpeg';
       final episode = [
         'https://rickandmortyapi.com/api/episode/1',
-        'https://rickandmortyapi.com/api/episode/2'
+        'https://rickandmortyapi.com/api/episode/2',
       ];
       const url = 'https://rickandmortyapi.com/api/character/1';
       final created = DateTime.now();

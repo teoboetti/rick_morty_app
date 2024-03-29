@@ -56,7 +56,7 @@ void main() {
                     'https://rickandmortyapi.com/api/episode/2',
                   ],
                   'url': 'https://rickandmortyapi.com/api/character/1',
-                  'created': '2017-11-04T18:48:46.250Z'
+                  'created': '2017-11-04T18:48:46.250Z',
                 },
               ],
             },
