@@ -27,7 +27,7 @@ command:
       dio: ^5.4.1
 
     dev_dependencies:
-      build_runner: ^2.4.8
+      build_runner: ^2.4.9
       mocktail: ^1.0.3
 
 scripts:

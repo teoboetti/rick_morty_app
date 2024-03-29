@@ -112,3 +112,4 @@ app.*.map.json
 !.idea/runConfigurations/
 *.lock
 pubspec_overrides.yaml
+*.config.dart
