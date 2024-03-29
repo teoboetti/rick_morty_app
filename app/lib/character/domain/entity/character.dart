@@ -1,15 +1,10 @@
-import 'package:api/src/models/location_dto.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:api/api.dart';
+import 'package:rick_morty_app/character/domain/entity/gender.dart';
+import 'package:rick_morty_app/character/domain/entity/location.dart';
+import 'package:rick_morty_app/character/domain/entity/status.dart';
 
-part 'character_dto.g.dart';
-
-/// {@template character}
-/// Character model
-/// {@endtemplate}
-@JsonSerializable()
-class CharacterDto {
-  /// {@macro character}
-  const CharacterDto({
+class Character {
+  Character({
     required this.id,
     required this.name,
     required this.status,
@@ -24,18 +19,13 @@ class CharacterDto {
     required this.created,
   });
 
-  /// {@macro character} from json
-  factory CharacterDto.fromJson(Map<String, dynamic> json) =>
-      _$CharacterDtoFromJson(json);
-
-  /// The id of the character.
   final int id;
 
   /// The name of the character.
   final String name;
 
   /// The status of the character ('Alive', 'Dead' or 'unknown').
-  final String status;
+  final CharacterStatus status;
 
   /// The species of the character.
   final String species;
@@ -44,13 +34,13 @@ class CharacterDto {
   final String type;
 
   /// The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').
-  final String gender;
+  final CharacterGender gender;
 
   /// Name and link to the character's origin location.
-  final LocationDto origin;
+  final Location origin;
 
   /// Name and link to the character's last known location endpoint.
-  final LocationDto location;
+  final Location location;
 
   /// Link to the character's image.
   final String image;
@@ -63,7 +53,23 @@ class CharacterDto {
 
   /// Time at which the character was created in the database.
   final DateTime created;
+}
 
-  /// toJson
-  Map<String, dynamic> toJson() => _$CharacterDtoToJson(this);
+extension CharacterDtoX on CharacterDto {
+  Character toDomain() {
+    return Character(
+      id: id,
+      name: name,
+      status: CharacterStatus.parse(status),
+      species: species,
+      type: type,
+      gender: CharacterGender.parse(gender),
+      origin: origin.toDomain(),
+      location: location.toDomain(),
+      image: image,
+      episode: episode,
+      url: url,
+      created: created,
+    );
+  }
 }

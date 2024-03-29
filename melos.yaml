@@ -56,14 +56,6 @@ scripts:
        - Requires `clang-format` (can be installed via Brew on MacOS).
        - Requires `swiftformat` (can be installed via Brew on macOS).
 
-  generate:
-    exec: |
-      dart run build_runner build --delete-conflicting-outputs
-    description: |
-      Generate .g.dart files if the package depends on build_runner
-    packageFilters:
-      dependsOn: build_runner
-
   localize:
     exec: |
       flutter gen-l10n
@@ -72,4 +64,25 @@ scripts:
     packageFilters:
       fileExists: l10n.yaml
       dependsOn: flutter_gen
-      
+  
+  test:select:
+    run: melos exec -c 1 -- flutter test
+    packageFilters:
+      dirExists: test
+    description: Run `flutter test` for selected packages.
+
+  test:
+    run: melos run test:select --no-select
+    description: Run all Flutter tests in this project.
+
+  generate:select:
+    exec: |
+      dart run build_runner build --delete-conflicting-outputs
+    description: |
+      Generate .g.dart files if the package for selected packages.
+    packageFilters:
+      dependsOn: build_runner
+
+  generate:
+    run: melos run generate:select --no-select
+    description: Generate .g.dart files if the package depends on build_runner.

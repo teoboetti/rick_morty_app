@@ -8,14 +8,14 @@ void main() {
     () {
       const id = 1;
       const name = 'Rick Sanchez';
-      const status = CharacterStatus.alive;
+      const status = 'Alive';
       const species = 'Human';
       const type = 'Superhuman';
-      const gender = CharacterGender.male;
-      final origin = LocationDto(
+      const gender = 'Male';
+      const origin = LocationDto(
         name: 'Earth',
       );
-      final location = LocationDto(
+      const location = LocationDto(
         name: 'Earth',
       );
       const image = 'https://rickandmortyapi.com/api/character/avatar/1.jpeg';

@@ -5,7 +5,7 @@ void main() {
   test('LocationDto', () {
     const name = 'Test Location';
 
-    final location = LocationDto(name: name);
+    const location = LocationDto(name: name);
 
     expect(location.name, equals(name));
   });

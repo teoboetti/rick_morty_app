@@ -8,7 +8,7 @@ part 'location_dto.g.dart';
 @JsonSerializable()
 class LocationDto {
   /// {@macro location}
-  LocationDto({
+  const LocationDto({
     required this.name,
   });
 
