@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 /// {@template api}
 /// Api
 /// {@endtemplate}
-// ignore: one_member_abstracts
 abstract class IApi {
   /// get character paginated
   Future<PaginationDto> getPaginatedCharacters({
