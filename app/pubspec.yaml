@@ -15,13 +15,17 @@ dependencies:
   flutter_bloc: ^8.1.4
   flutter_localizations:
     sdk: flutter
+  get_it: ^7.6.7
+  injectable: ^2.4.1
   intl: ^0.18.1
   
 
 dev_dependencies:
   bloc_test: ^9.1.6
+  build_runner: ^2.4.9
   flutter_test:
     sdk: flutter
+  injectable_generator: ^2.6.1
   mocktail: ^1.0.3
   very_good_analysis: ^5.1.0
 
