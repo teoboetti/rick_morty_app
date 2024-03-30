@@ -13,6 +13,15 @@ class Pagination {
 
   /// [Character] list
   final List<Character> results;
+
+  Pagination copyWith({
+    List<Character>? results,
+  }) {
+    return Pagination(
+      info: info,
+      results: results ?? this.results,
+    );
+  }
 }
 
 extension PaginationDtoX on PaginationDto {
