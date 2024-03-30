@@ -6,5 +6,4 @@ export 'domain/entity/location.dart';
 export 'domain/entity/pagination.dart';
 export 'domain/entity/status.dart';
 export 'domain/usecase/get_paginated_characters.dart';
-export 'presentation/characters/characters.dart';
-export 'presentation/details/character_details.dart';
+export 'domain/usecase/search_character.dart';

@@ -58,6 +58,11 @@ class __InjectorState extends State<_Injector> {
             repository: context.read<CharacterRepositoryImpl>(),
           ),
         ),
+        RepositoryProvider<SearchCharacter>(
+          create: (context) => SearchCharacter(
+            repository: context.read<CharacterRepositoryImpl>(),
+          ),
+        ),
       ],
       child: widget.child,
     );
