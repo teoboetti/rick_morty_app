@@ -10,6 +10,12 @@ abstract class IApi {
   Future<PaginationDto> getPaginatedCharacters({
     int page = 0,
   });
+
+  /// search character by query
+  Future<PaginationDto> searchCharacter({
+    required String name,
+    int page = 0,
+  });
 }
 
 /// {@template api.impl}
@@ -31,6 +37,30 @@ final class ApiImpl implements IApi {
       final uri = Uri(
         path: '/api/character',
         queryParameters: {
+          'page': '$page',
+        },
+      );
+
+      final response = await client.getUri<Map<String, dynamic>>(
+        uri,
+      );
+
+      return PaginationDto.fromJson(response.data!);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<PaginationDto> searchCharacter({
+    required String name,
+    int page = 0,
+  }) async {
+    try {
+      final uri = Uri(
+        path: '/api/character',
+        queryParameters: {
+          'name': name,
           'page': '$page',
         },
       );

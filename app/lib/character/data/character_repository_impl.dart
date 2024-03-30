@@ -10,8 +10,23 @@ class CharacterRepositoryImpl extends ICharacterRepository {
   final IApi _api;
 
   @override
-  Future<Pagination> getPaginatedCharacters({int page = 0}) async {
+  Future<Pagination> getPaginatedCharacters({
+    int page = 0,
+  }) async {
     final result = await _api.getPaginatedCharacters(page: page);
+
+    return result.toDomain();
+  }
+
+  @override
+  Future<Pagination> searchCharacter({
+    required String name,
+    int page = 0,
+  }) async {
+    final result = await _api.searchCharacter(
+      name: name,
+      page: page,
+    );
 
     return result.toDomain();
   }

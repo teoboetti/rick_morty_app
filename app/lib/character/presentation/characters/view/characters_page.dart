@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty_app/character/character.dart';
+import 'package:rick_morty_app/character/presentation/characters/characters.dart';
 import 'package:rick_morty_app/core/router/routes.dart';
 
 class CharactersPage extends StatelessWidget {
@@ -27,9 +28,20 @@ class CharactersView extends StatelessWidget {
     final state = context.watch<CharactersPageBloc>().state;
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Rick and Morty'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              const SearchRoute().go(context);
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
+      ),
       body: state is CharactersPageInitial
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             )
           : const CharactersContent(),
     );
@@ -81,12 +93,16 @@ class _CharactersContentState extends State<CharactersContent> {
                     : state.characters.length + 1,
                 itemBuilder: (context, index) {
                   if (index >= state.characters.length) {
-                    return Center(
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        child: const CircularProgressIndicator(),
-                      ),
-                    );
+                    if (state.hasMoreToFetch) {
+                      return Center(
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: const CircularProgressIndicator.adaptive(),
+                        ),
+                      );
+                    }
+
+                    return const SizedBox();
                   }
 
                   final character = state.characters[index];
