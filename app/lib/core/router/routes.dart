@@ -10,6 +10,11 @@ part 'routes.g.dart';
 
 @TypedGoRoute<HomeRoute>(
   path: '/',
+  routes: [
+    TypedGoRoute<DetailsRoute>(
+      path: 'details',
+    ),
+  ],
 )
 class HomeRoute extends GoRouteData {
   const HomeRoute();
@@ -25,6 +30,36 @@ class HomeRoute extends GoRouteData {
       case TargetPlatform.android:
         return const MaterialPage(
           child: CharactersPage(),
+        );
+
+      default:
+        throw Exception('$defaultTargetPlatform not supported');
+    }
+  }
+}
+
+class DetailsRoute extends GoRouteData {
+  const DetailsRoute({
+    required this.$extra,
+  });
+
+  final Character $extra;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.iOS:
+        return CupertinoPage(
+          child: CharacterDetailsPage(
+            character: $extra,
+          ),
+        );
+
+      case TargetPlatform.android:
+        return MaterialPage(
+          child: CharacterDetailsPage(
+            character: $extra,
+          ),
         );
 
       default:

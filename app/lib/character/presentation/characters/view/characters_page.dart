@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty_app/character/character.dart';
+import 'package:rick_morty_app/core/router/routes.dart';
 
 class CharactersPage extends StatelessWidget {
   const CharactersPage({super.key});
@@ -91,6 +92,9 @@ class _CharactersContentState extends State<CharactersContent> {
                   final character = state.characters[index];
 
                   return ListTile(
+                    onTap: () {
+                      DetailsRoute($extra: character).go(context);
+                    },
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(
                         character.image,
