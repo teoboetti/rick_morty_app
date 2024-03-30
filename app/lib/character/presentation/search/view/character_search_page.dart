@@ -118,12 +118,16 @@ class _CharacterSearchResultsState extends State<CharacterSearchResults> {
                   : state.characters.length + 1,
               itemBuilder: (context, index) {
                 if (index >= state.characters.length) {
-                  return Center(
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      child: const CircularProgressIndicator(),
-                    ),
-                  );
+                  if (state.hasMoreToFetch) {
+                    return Center(
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        child: const CircularProgressIndicator.adaptive(),
+                      ),
+                    );
+                  }
+
+                  return const SizedBox();
                 }
 
                 final character = state.characters[index];

@@ -40,7 +40,7 @@ final class CharacterSearchSuccess extends CharacterSearchPageState {
   List<Character> get characters => pagination.results;
 
   bool get hasMoreToFetch {
-    return page <= pagination.info.pages;
+    return page < pagination.info.pages;
   }
 
   CharacterSearchSuccess copyWith({

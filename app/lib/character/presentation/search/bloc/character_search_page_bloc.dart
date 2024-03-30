@@ -44,19 +44,18 @@ class CharacterSearchPageBloc
   ) async {
     try {
       emit(
-        CharacterSearchLoading(
-          page: state.page,
-        ),
+        const CharacterSearchLoading(page: 1),
       );
 
       final result = await _searchCharacter.call(
         name: event.name,
+        page: 1,
       );
 
       emit(
         CharacterSearchSuccess(
           query: event.name,
-          page: state.page,
+          page: 1,
           pagination: result,
           hasReachedEnd: false,
         ),

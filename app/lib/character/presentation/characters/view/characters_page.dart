@@ -41,7 +41,7 @@ class CharactersView extends StatelessWidget {
       ),
       body: state is CharactersPageInitial
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             )
           : const CharactersContent(),
     );
@@ -93,12 +93,16 @@ class _CharactersContentState extends State<CharactersContent> {
                     : state.characters.length + 1,
                 itemBuilder: (context, index) {
                   if (index >= state.characters.length) {
-                    return Center(
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        child: const CircularProgressIndicator(),
-                      ),
-                    );
+                    if (state.hasMoreToFetch) {
+                      return Center(
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: const CircularProgressIndicator.adaptive(),
+                        ),
+                      );
+                    }
+
+                    return const SizedBox();
                   }
 
                   final character = state.characters[index];
