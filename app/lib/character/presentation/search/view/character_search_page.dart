@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty_app/character/domain/usecase/search_character.dart';
 import 'package:rick_morty_app/character/presentation/search/search.dart';
+import 'package:rick_morty_app/components/character_tile.dart';
+import 'package:rick_morty_app/components/loading.dart';
+import 'package:rick_morty_app/components/search_textfield.dart';
 import 'package:rick_morty_app/core/router/routes.dart';
 import 'package:rick_morty_app/l10n/l10n.dart';
 
@@ -27,20 +30,14 @@ class CharacterSearchView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: TextField(
-                autofocus: true,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: context.l10n.characterSearchPageHint,
-                ),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 16,
+              ),
+              child: SearchTextfield(
                 onChanged: (value) {
                   if (value.length > 3) {
                     context.read<CharacterSearchPageBloc>().add(
@@ -103,9 +100,7 @@ class _CharacterSearchResultsState extends State<CharacterSearchResults> {
               child: Text(context.l10n.characterSearchPageInitial),
             );
           case CharacterSearchLoading():
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
+            return const Loading();
           case CharacterSearchNotFound():
             return Center(
               child: Text(context.l10n.characterSearchPageNotFound),
@@ -122,7 +117,7 @@ class _CharacterSearchResultsState extends State<CharacterSearchResults> {
                     return Center(
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 8),
-                        child: const CircularProgressIndicator.adaptive(),
+                        child: const Loading(),
                       ),
                     );
                   }
@@ -132,17 +127,11 @@ class _CharacterSearchResultsState extends State<CharacterSearchResults> {
 
                 final character = state.characters[index];
 
-                return ListTile(
+                return CharacterTile(
+                  character: character,
                   onTap: () {
                     DetailsRoute($extra: character).push<void>(context);
                   },
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      character.image,
-                    ),
-                  ),
-                  title: Text(character.name),
-                  subtitle: Text(character.species),
                 );
               },
             );

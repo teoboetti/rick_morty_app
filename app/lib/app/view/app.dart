@@ -18,7 +18,6 @@ class App extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: getIt<AppRouter>().routerConfig,
         theme: ThemeData(
-          fontFamily: 'Schwifty',
           appBarTheme: AppBarTheme(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           ),
