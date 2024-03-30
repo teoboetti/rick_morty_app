@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
-import 'package:rick_morty_app/character/character.dart';
+import 'package:rick_morty_app/character/domain/entity/character.dart';
+import 'package:rick_morty_app/character/domain/entity/pagination.dart';
+import 'package:rick_morty_app/character/domain/usecase/get_paginated_characters.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'characters_page_event.dart';
