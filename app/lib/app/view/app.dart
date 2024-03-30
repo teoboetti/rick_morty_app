@@ -2,7 +2,9 @@ import 'package:api/api.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_morty_app/character/character.dart';
+import 'package:rick_morty_app/character/data/character_repository_impl.dart';
+import 'package:rick_morty_app/character/domain/usecase/get_paginated_characters.dart';
+import 'package:rick_morty_app/character/domain/usecase/search_character.dart';
 import 'package:rick_morty_app/core/di/injector.dart';
 import 'package:rick_morty_app/core/router/router.dart';
 import 'package:rick_morty_app/l10n/l10n.dart';
@@ -16,7 +18,6 @@ class App extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: getIt<AppRouter>().routerConfig,
         theme: ThemeData(
-          fontFamily: 'Schwifty',
           appBarTheme: AppBarTheme(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           ),

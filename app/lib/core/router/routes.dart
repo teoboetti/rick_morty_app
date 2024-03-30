@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rick_morty_app/character/character.dart';
+import 'package:rick_morty_app/character/domain/domain.dart';
 import 'package:rick_morty_app/character/presentation/characters/characters.dart';
 import 'package:rick_morty_app/character/presentation/details/character_details.dart';
 import 'package:rick_morty_app/character/presentation/search/search.dart';

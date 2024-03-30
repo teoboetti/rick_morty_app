@@ -1,4 +1,4 @@
-import 'package:rick_morty_app/character/character.dart';
+import 'package:rick_morty_app/character/domain/entity/pagination.dart';
 import 'package:rick_morty_app/character/domain/repository/i_character_repository.dart';
 
 class SearchCharacter {

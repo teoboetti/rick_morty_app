@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_morty_app/character/character.dart';
+import 'package:rick_morty_app/character/domain/usecase/get_paginated_characters.dart';
 import 'package:rick_morty_app/character/presentation/characters/characters.dart';
+import 'package:rick_morty_app/components/character_tile.dart';
+import 'package:rick_morty_app/components/loading.dart';
 import 'package:rick_morty_app/core/router/routes.dart';
 
 class CharactersPage extends StatelessWidget {
@@ -29,7 +31,12 @@ class CharactersView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rick and Morty'),
+        title: Text(
+          'Rick and Morty',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontFamily: 'Schwifty',
+              ),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -40,9 +47,7 @@ class CharactersView extends StatelessWidget {
         ],
       ),
       body: state is CharactersPageInitial
-          ? const Center(
-              child: CircularProgressIndicator.adaptive(),
-            )
+          ? const Loading()
           : const CharactersContent(),
     );
   }
@@ -79,9 +84,6 @@ class _CharactersContentState extends State<CharactersContent> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      minimum: const EdgeInsets.symmetric(
-        horizontal: 16,
-      ),
       child: BlocBuilder<CharactersPageBloc, CharactersPageState>(
         builder: (context, state) {
           switch (state) {
@@ -97,7 +99,7 @@ class _CharactersContentState extends State<CharactersContent> {
                       return Center(
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 8),
-                          child: const CircularProgressIndicator.adaptive(),
+                          child: const Loading(),
                         ),
                       );
                     }
@@ -107,17 +109,11 @@ class _CharactersContentState extends State<CharactersContent> {
 
                   final character = state.characters[index];
 
-                  return ListTile(
+                  return CharacterTile(
+                    character: character,
                     onTap: () {
                       DetailsRoute($extra: character).go(context);
                     },
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        character.image,
-                      ),
-                    ),
-                    title: Text(character.name),
-                    subtitle: Text(character.species),
                   );
                 },
               );
