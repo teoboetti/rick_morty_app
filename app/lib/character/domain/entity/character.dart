@@ -53,6 +53,39 @@ class Character {
 
   /// Time at which the character was created in the database.
   final DateTime created;
+
+  Map<String, dynamic>? encode() {
+    return {
+      'id': id,
+      'name': name,
+      'status': status.toString(),
+      'species': species,
+      'type': type,
+      'gender': gender.toString(),
+      'image': image,
+      'episode': episode,
+      'url': url,
+      'created': created.toIso8601String(),
+    };
+  }
+
+  Character? decode(Map<String, dynamic>? data) {
+    if (data == null) return null;
+    return Character(
+      id: data['id'] as int,
+      name: data['name'] as String,
+      status: CharacterStatus.parse(data['status'] as String),
+      species: data['species'] as String,
+      type: data['type'] as String,
+      gender: CharacterGender.parse(data['gender'] as String),
+      origin: Location(name: ''),
+      location: Location(name: ''),
+      image: data['image'] as String,
+      episode: List<String>.from(data['episode'] as List),
+      url: data['url'] as String,
+      created: DateTime.parse(data['created'] as String),
+    );
+  }
 }
 
 extension CharacterDtoX on CharacterDto {

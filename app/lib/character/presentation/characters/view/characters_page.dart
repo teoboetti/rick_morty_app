@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:rick_morty_app/character/domain/usecase/get_paginated_characters.dart';
 import 'package:rick_morty_app/character/presentation/characters/characters.dart';
-import 'package:rick_morty_app/components/character_tile.dart';
 import 'package:rick_morty_app/components/loading.dart';
 import 'package:rick_morty_app/core/router/routes.dart';
 
@@ -53,24 +54,12 @@ class CharactersContent extends StatefulWidget {
 }
 
 class _CharactersContentState extends State<CharactersContent> {
-  final _scrollController = ScrollController();
-
-  CharactersPageBloc get _pageBloc => context.read<CharactersPageBloc>();
-
-  void _onScroll() {
-    if (!_scrollController.hasClients) return;
-
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      _pageBloc.add(const FetchPageEvent());
-    }
-  }
+  late final CardSwiperController _controller;
 
   @override
   void initState() {
     super.initState();
-
-    _scrollController.addListener(_onScroll);
+    _controller = CardSwiperController();
   }
 
   @override
@@ -80,35 +69,129 @@ class _CharactersContentState extends State<CharactersContent> {
         builder: (context, state) {
           switch (state) {
             case CharacterPageSuccess():
-              return ListView.builder(
-                controller: _scrollController,
-                itemCount: state.hasReachedEnd
-                    ? state.characters.length
-                    : state.characters.length + 1,
-                itemBuilder: (context, index) {
-                  if (index >= state.characters.length) {
-                    if (state.hasMoreToFetch) {
-                      return Center(
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 8),
-                          child: const Loading(),
-                        ),
-                      );
-                    }
+              return Column(
+                children: [
+                  Flexible(
+                    child: CardSwiper(
+                      controller: _controller,
+                      numberOfCardsDisplayed: 3,
+                      allowedSwipeDirection:
+                          const AllowedSwipeDirection.symmetric(
+                        horizontal: true,
+                      ),
+                      cardsCount: state.characters.length,
+                      cardBuilder: (
+                        context,
+                        index,
+                        _,
+                        __,
+                      ) {
+                        final character = state.characters[index];
 
-                    return const SizedBox();
-                  }
+                        return Hero(
+                          tag: character.id,
+                          child: GestureDetector(
+                            onTap: () {
+                              DetailsRoute($extra: character).go(context);
+                            },
+                            child: Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 3,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  AspectRatio(
+                                    aspectRatio: 1,
+                                    child: CachedNetworkImage(
+                                      imageUrl: character.image,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) {
+                                        return ColoredBox(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  ColoredBox(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            character.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            character.species,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color: Colors.grey,
+                                                  fontSize: 15,
+                                                ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            character.location.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color: Colors.grey,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      onSwipe: (previousIndex, currentIndex, direction) {
+                        currentIndex ??= previousIndex;
 
-                  final character = state.characters[index];
+                        if (currentIndex == state.characters.length - 5) {
+                          context.read<CharactersPageBloc>().add(
+                                const FetchPageEvent(),
+                              );
+                        }
 
-                  return CharacterTile(
-                    character: character,
-                    onTap: () {
-                      DetailsRoute($extra: character).go(context);
-                    },
-                  );
-                },
+                        return true;
+                      },
+                    ),
+                  ),
+                ],
               );
+
             default:
               return const SizedBox();
           }
@@ -119,9 +202,7 @@ class _CharactersContentState extends State<CharactersContent> {
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _controller.dispose();
     super.dispose();
   }
 }

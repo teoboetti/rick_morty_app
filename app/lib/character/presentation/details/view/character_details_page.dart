@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty_app/character/domain/entity/character.dart';
@@ -31,62 +32,66 @@ class DetailsView extends StatelessWidget {
       builder: (context, state) {
         final character = state.character;
 
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(character.name),
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Image.network(
-                  character.image,
-                  fit: BoxFit.cover,
-                  height: 300,
-                ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        character.name,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Status: ${character.status.status}',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 8),
-                      const Divider(height: 1),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Origin: ${character.origin.name}',
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Last location: ${character.location.name}',
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Species: ${character.species}',
-                      ),
-                      if (character.type.isNotEmpty) ...[
+        return Hero(
+          tag: character.id,
+          
+          child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            appBar: AppBar(
+              title: Text(character.name),
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: character.image,
+                    fit: BoxFit.cover,
+                  ),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          character.name,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
                         const SizedBox(height: 8),
                         Text(
-                          'Type: ${character.type}',
+                          'Status: ${character.status.status}',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        const Divider(height: 1),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Origin: ${character.origin.name}',
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Last location: ${character.location.name}',
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Species: ${character.species}',
+                        ),
+                        if (character.type.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            'Type: ${character.type}',
+                          ),
+                        ],
+                        const SizedBox(height: 8),
+                        Text(
+                          'Gender: ${character.gender.gender}',
                         ),
                       ],
-                      const SizedBox(height: 8),
-                      Text(
-                        'Gender: ${character.gender.gender}',
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

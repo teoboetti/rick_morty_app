@@ -18,7 +18,7 @@ class App extends StatelessWidget {
         routerConfig: getIt<AppRouter>().routerConfig,
         theme: ThemeData(
           appBarTheme: AppBarTheme(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           ),
           useMaterial3: true,
         ),
