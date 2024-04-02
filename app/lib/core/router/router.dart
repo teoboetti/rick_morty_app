@@ -7,5 +7,6 @@ class AppRouter {
     debugLogDiagnostics: kDebugMode,
     initialLocation: const HomeRoute().location,
     routes: $appRoutes,
+    navigatorKey: rootNavigatorKey,
   );
 }

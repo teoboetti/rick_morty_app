@@ -37,14 +37,6 @@ class CharactersView extends StatelessWidget {
                 fontFamily: 'Schwifty',
               ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              const SearchRoute().go(context);
-            },
-            icon: const Icon(Icons.search),
-          ),
-        ],
       ),
       body: state is CharactersPageInitial
           ? const Loading()
