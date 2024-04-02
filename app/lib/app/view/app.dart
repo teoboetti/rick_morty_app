@@ -1,5 +1,4 @@
 import 'package:api/api.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty_app/character/data/character_repository_impl.dart';
@@ -47,7 +46,7 @@ class __InjectorState extends State<_Injector> {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<ApiImpl>(
-          create: (_) => ApiImpl(getIt<Dio>()),
+          create: (_) => ApiImpl(getIt<ApiClient>()),
         ),
         RepositoryProvider<CharacterRepositoryImpl>(
           create: (context) => CharacterRepositoryImpl(

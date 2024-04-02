@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rick_morty_app/core/di/injector.dart';
 
 class AppBlocObserver extends BlocObserver {
@@ -29,6 +30,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Bloc.observer = const AppBlocObserver();
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
 
   initDependencies();
 

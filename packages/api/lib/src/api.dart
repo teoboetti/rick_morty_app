@@ -1,5 +1,5 @@
+import 'package:api/src/api_client.dart';
 import 'package:api/src/models/pagination_dto.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 /// {@template api}
@@ -27,7 +27,7 @@ final class ApiImpl implements IApi {
 
   /// client that makes the Api calls
   @visibleForTesting
-  final Dio client;
+  final ApiClient client;
 
   @override
   Future<PaginationDto> getPaginatedCharacters({
@@ -41,7 +41,7 @@ final class ApiImpl implements IApi {
         },
       );
 
-      final response = await client.getUri<Map<String, dynamic>>(
+      final response = await client.dio.getUri<Map<String, dynamic>>(
         uri,
       );
 
@@ -65,7 +65,7 @@ final class ApiImpl implements IApi {
         },
       );
 
-      final response = await client.getUri<Map<String, dynamic>>(
+      final response = await client.dio.getUri<Map<String, dynamic>>(
         uri,
       );
 

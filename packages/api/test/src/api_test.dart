@@ -1,31 +1,40 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:api/api.dart';
-import 'package:dio/dio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
-import '../mocks/dio_mock.dart';
+import '../mocks/client_mock.dart';
 import '../mocks/uri_mock.dart';
 
 void main() {
+  late MockDio mockDio;
+
   setUpAll(() {
     registerFallbackValue(FakeUri());
+
+    mockDio = MockDio();
   });
 
   group(
     'Api',
     () {
-      test('can be instantiated', () {
-        final dio = Dio();
-
-        expect(ApiImpl(dio), isNotNull);
-      });
+      test(
+        'can be instantiated',
+        () {
+          final mockApiClient = MockApiClient();
+          expect(ApiImpl(mockApiClient), isNotNull);
+        },
+      );
 
       test(
         'Should make a successful API call with default parameters',
         () async {
-          final mockDio = MockDio();
-          final api = ApiImpl(mockDio);
+          final apiClient = ApiClient(
+            cacheStore: MockCacheStore(),
+            cacheOptions: MockCacheOptions(),
+            dio: mockDio,
+          );
+          final api = ApiImpl(apiClient);
 
           final response = MockResponse<Map<String, dynamic>>(
             data: {
@@ -63,9 +72,7 @@ void main() {
           );
 
           when(
-            () => mockDio.getUri<Map<String, dynamic>>(
-              any(),
-            ),
+            () => mockDio.getUri<Map<String, dynamic>>(any()),
           ).thenAnswer(
             (_) async => response,
           );
@@ -78,17 +85,19 @@ void main() {
       test(
         'Should throw TypeError',
         () async {
-          final mockDio = MockDio();
-          final api = ApiImpl(mockDio);
+          final apiClient = ApiClient(
+            cacheStore: MockCacheStore(),
+            cacheOptions: MockCacheOptions(),
+            dio: mockDio,
+          );
+          final api = ApiImpl(apiClient);
 
           final response = MockResponse<Map<String, dynamic>>(
             data: {},
           );
 
           when(
-            () => mockDio.getUri<Map<String, dynamic>>(
-              any(),
-            ),
+            () => mockDio.getUri<Map<String, dynamic>>(any()),
           ).thenAnswer(
             (_) async => response,
           );
