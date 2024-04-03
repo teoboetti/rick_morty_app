@@ -113,18 +113,21 @@ class _CharactersContentState extends State<CharactersContent> {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  AspectRatio(
-                                    aspectRatio: 1,
-                                    child: CachedNetworkImage(
-                                      imageUrl: character.image,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) {
-                                        return ColoredBox(
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                        );
-                                      },
-                                    ),
+                                  CachedNetworkImage(
+                                    imageUrl: character.image,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, _) {
+                                      return ColoredBox(
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      );
+                                    },
+                                    errorWidget: (context, _, __) {
+                                      return ColoredBox(
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      );
+                                    },
                                   ),
                                   ColoredBox(
                                     color: Colors.white,
