@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum CharacterStatus {
   alive('Alive'),
 
@@ -19,4 +21,15 @@ enum CharacterStatus {
   }
 
   final String status;
+
+  Color get color {
+    switch (this) {
+      case CharacterStatus.alive:
+        return Colors.green;
+      case CharacterStatus.dead:
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
 }

@@ -56,6 +56,8 @@ class CharactersContent extends StatefulWidget {
 class _CharactersContentState extends State<CharactersContent> {
   late final CardSwiperController _controller;
 
+  int _currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -88,101 +90,112 @@ class _CharactersContentState extends State<CharactersContent> {
                       ) {
                         final character = state.characters[index];
 
-                        return Hero(
-                          tag: character.id,
-                          child: GestureDetector(
-                            onTap: () {
-                              DetailsRoute($extra: character).go(context);
-                            },
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
+                        return IgnorePointer(
+                          ignoring: _currentIndex != index,
+                          child: Hero(
+                            tag: character.id,
+                            child: GestureDetector(
+                              onTap: () {
+                                DetailsRoute(
+                                  cid: character.id,
+                                  $extra: character,
+                                ).go(context);
+                              },
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 3,
+                                      blurRadius: 7,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
                                 ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 3,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  CachedNetworkImage(
-                                    imageUrl: character.image,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, _) {
-                                      return ColoredBox(
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                      );
-                                    },
-                                    errorWidget: (context, _, __) {
-                                      return ColoredBox(
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                      );
-                                    },
-                                  ),
-                                  ColoredBox(
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            character.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            character.species,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(
-                                                  color: Colors.grey,
-                                                  fontSize: 15,
-                                                ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            character.location.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(
-                                                  color: Colors.grey,
-                                                ),
-                                          ),
-                                        ],
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl: character.image,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, _) {
+                                        return ColoredBox(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                        );
+                                      },
+                                      errorWidget: (context, _, __) {
+                                        return ColoredBox(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                        );
+                                      },
+                                    ),
+                                    ColoredBox(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              character.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              character.species,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith(
+                                                    color: Colors.grey,
+                                                    fontSize: 15,
+                                                  ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              character.location.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith(
+                                                    color: Colors.grey,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         );
                       },
                       onSwipe: (previousIndex, currentIndex, direction) {
-                        currentIndex ??= previousIndex;
+                        final index = currentIndex ??= previousIndex;
 
-                        if (currentIndex == state.characters.length - 5) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+
+                        if (index == state.characters.length - 5) {
                           context.read<CharactersPageBloc>().add(
                                 const FetchPageEvent(),
                               );

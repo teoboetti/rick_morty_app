@@ -22,7 +22,7 @@ final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
           path: '/',
           routes: [
             TypedGoRoute<DetailsRoute>(
-              path: 'details',
+              path: 'details/:cid',
             ),
           ],
         ),
@@ -82,10 +82,12 @@ class HomeRoute extends GoRouteData {
 
 class DetailsRoute extends GoRouteData {
   const DetailsRoute({
-    required this.$extra,
+    required this.cid,
+    this.$extra,
   });
 
-  final Character $extra;
+  final int cid;
+  final Character? $extra;
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
@@ -94,6 +96,7 @@ class DetailsRoute extends GoRouteData {
     return CustomTransitionPage<void>(
       key: state.pageKey,
       child: CharacterDetailsPage(
+        cid: cid,
         character: $extra,
       ),
       transitionsBuilder: (

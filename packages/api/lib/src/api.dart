@@ -1,4 +1,5 @@
 import 'package:api/src/api_client.dart';
+import 'package:api/src/models/character_dto.dart';
 import 'package:api/src/models/pagination_dto.dart';
 import 'package:flutter/foundation.dart';
 
@@ -10,6 +11,9 @@ abstract class IApi {
   Future<PaginationDto> getPaginatedCharacters({
     int page = 0,
   });
+
+  /// get character by id
+  Future<CharacterDto> getByID({required int id});
 
   /// search character by query
   Future<PaginationDto> searchCharacter({
@@ -46,6 +50,21 @@ final class ApiImpl implements IApi {
       );
 
       return PaginationDto.fromJson(response.data!);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CharacterDto> getByID({required int id}) async {
+    try {
+      final uri = Uri(
+        path: '/api/character/$id',
+      );
+
+      final response = await client.dio.getUri<Map<String, dynamic>>(uri);
+
+      return CharacterDto.fromJson(response.data!);
     } catch (e) {
       rethrow;
     }

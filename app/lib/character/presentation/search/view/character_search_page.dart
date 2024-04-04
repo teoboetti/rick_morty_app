@@ -129,7 +129,10 @@ class _CharacterSearchResultsState extends State<CharacterSearchResults> {
                 return CharacterTile(
                   character: character,
                   onTap: () {
-                    DetailsRoute($extra: character).push<void>(context);
+                    DetailsRoute(
+                      cid: character.id,
+                      $extra: character,
+                    ).push<void>(context);
                   },
                 );
               },

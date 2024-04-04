@@ -2,6 +2,7 @@ import 'package:api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty_app/character/data/character_repository_impl.dart';
+import 'package:rick_morty_app/character/domain/usecase/get_character_by_id.dart';
 import 'package:rick_morty_app/character/domain/usecase/get_paginated_characters.dart';
 import 'package:rick_morty_app/character/domain/usecase/search_character.dart';
 import 'package:rick_morty_app/core/di/injector.dart';
@@ -55,6 +56,11 @@ class __InjectorState extends State<_Injector> {
         ),
         RepositoryProvider<GetPaginatedCharacters>(
           create: (context) => GetPaginatedCharacters(
+            repository: context.read<CharacterRepositoryImpl>(),
+          ),
+        ),
+        RepositoryProvider<GetCharacterByID>(
+          create: (context) => GetCharacterByID(
             repository: context.read<CharacterRepositoryImpl>(),
           ),
         ),
